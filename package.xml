@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>pandora_rqt_gui</name>
+  <version>0.0.0</version>
+  <description>The rqt_mypkg package</description>
+
+  <maintainer email="chamzask@gmail.com">Chamzas Konstantinos</maintainer>
+
+  <license>BSD</license>
+
+  <author>Chamzas Konstantinos</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>rqt_gui</run_depend>
+  <run_depend>rqt_gui_py</run_depend>
+
+
+  <export>
+     <rqt_gui plugin="${prefix}/plugin.xml"/>
+
+  </export>
+</package>
