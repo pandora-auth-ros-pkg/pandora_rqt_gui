@@ -10,8 +10,10 @@ import rospy
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
 
+import pandora_fsm
 from .widget_info import WidgetInfo
 from .propability_info import PropabilityInfoWidget
+from fsm_communications.msg import ValidateVictimAction
 
 
 class StandarWidget(QWidget):

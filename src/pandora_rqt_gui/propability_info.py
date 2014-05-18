@@ -10,6 +10,14 @@ import rospy
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
 
+from data_fusion_communications.msg import FusionGlobalMsg
+
+
+
+global_propabilities_topic= "/data_fusion/victim_fusion/global_probabilities"
+
+
+
 from .widget_info import WidgetInfo
 
 
@@ -28,11 +36,11 @@ class PropabilityInfoWidget(QWidget):
         rp = rospkg.RosPack()
         ui_file = os.path.join(rp.get_path('pandora_rqt_gui'), 'resources', 'PropabilityInfo.ui')
         loadUi(ui_file, self)
-        self.widget_info_CO2 = WidgetInfo("chatter", Int16 )
-        self.widget_info_Thermal = WidgetInfo("chatter", Int16 )
-        self.widget_info_Motion = WidgetInfo("chatter", Int16 )
-        self.widget_info_Sound = WidgetInfo("chatter", Int16 )
-        self.widget_info_Face = WidgetInfo("chatter", Int16 )
+        self.widget_info_CO2 = WidgetInfo(global_propabilities_topic, FusionGlobalMsg )
+        self.widget_info_Thermal = WidgetInfo(global_propabilities_topic, FusionGlobalMsg )
+        self.widget_info_Motion = WidgetInfo(global_propabilities_topic, FusionGlobalMsg )
+        self.widget_info_Sound = WidgetInfo(global_propabilities_topic, FusionGlobalMsg )
+        self.widget_info_Face = WidgetInfo(global_propabilities_topic, FusionGlobalMsg )
 
         
         self._timer_refresh_widget = QTimer(self)
@@ -49,11 +57,11 @@ class PropabilityInfoWidget(QWidget):
     @Slot()
     def refresh_topics(self):
 
-        self.co2Bar.setValue(self.widget_info_CO2.last_message % 100 )
-        self.thermalBar.setValue(self.widget_info_Thermal.last_message % 100)
-        self.motionBar.setValue(self.widget_info_Motion.last_message % 100)
-        self.soundBar.setValue(self.widget_info_Sound.last_message % 100)
-        self.faceBar.setValue(self.widget_info_Face.last_message % 100)
+        self.co2Bar.setValue(self.widget_info_CO2.last_message.co2 % 100 )
+        self.thermalBar.setValue(self.widget_info_Thermal.last_message.mlx % 100)
+        self.motionBar.setValue(self.widget_info_Motion.last_message.motion % 100)
+        self.soundBar.setValue(self.widget_info_Sound.last_message.sound % 100)
+        self.faceBar.setValue(self.widget_info_Face.last_message.face % 100)
 
 
     def shutdown(self):

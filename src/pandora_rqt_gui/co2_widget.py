@@ -10,6 +10,24 @@ import rospy
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
 
+
+
+#~ 
+import roslib; roslib.load_manifest('pandora_fsm')
+
+#~ import rospy
+#~ import smach
+#~ import smach_ros
+
+import pandora_fsm
+#~ import pandora_gazebo
+
+#~ from smach import State, StateMachine, Concurrence
+
+#~ from pandora_data_fusion_communications import *
+
+
+from data_fusion_communications.msg import *
 from .widget_info import WidgetInfo
 
 
