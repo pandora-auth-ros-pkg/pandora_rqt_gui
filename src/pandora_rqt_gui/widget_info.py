@@ -21,7 +21,7 @@ class WidgetInfo():
     self._subscriber = None
     self.monitoring = False
     self.message_class = None
-    self.last_message =4
+    self.last_message = 4
     
     self.message_class= topic_type
     

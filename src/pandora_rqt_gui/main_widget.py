@@ -91,8 +91,7 @@ class MainWidget(QWidget):
           widget.close()
           
       self.setLayout(self._hbox) 
-        
-
+              
     def shutdown_plugin(self):
       
         for widget in self._widgetList:

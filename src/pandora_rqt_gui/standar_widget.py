@@ -1,6 +1,7 @@
 from __future__ import division
 import os
 
+
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot, QTime
 from python_qt_binding.QtGui import QHeaderView, QIcon, QMenu, QTreeWidgetItem, QWidget
@@ -10,10 +11,11 @@ import rospy
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
 
-import pandora_fsm
+
 from .widget_info import WidgetInfo
+from .victim_found_server import ValidateVictimAction
 from .propability_info import PropabilityInfoWidget
-from fsm_communications.msg import ValidateVictimAction
+
 
 
 class StandarWidget(QWidget):
@@ -32,10 +34,14 @@ class StandarWidget(QWidget):
        
         self._PropabilityInfoWidget = PropabilityInfoWidget(self)
         
+        #LALALLALALALALLALALALLAL
+        self._validateVictimAction = ValidateVictimAction('victimValidation')
+        
         self.score_info= WidgetInfo("chatter", Int16 )
         self.victim_info= WidgetInfo("chatter", Int16 )
         
-        self.timerStarted= False
+        self.timerStarted = False
+        self.victimFound = False
        
         
         
@@ -96,6 +102,10 @@ class StandarWidget(QWidget):
         self._PropabilityInfoWidget.shutdown()
         self._PropabilityInfoWidget.close()
         
+        
+    def setVictimInfo():
+       pass
+        
       
 
     @Slot()
@@ -104,12 +114,14 @@ class StandarWidget(QWidget):
         self.score.display(self.score_info.last_message)
         self.victimsFound.display(self.victim_info.last_message)
         
-        self.confirmButton.enabledChange(True);
-        self.declineButton.enabledChange(False);
-        
         if self.timerStarted:
             self.time2 = self.time2.addSecs(-1)
             self.timer.setTime(self.time2)
+        
+        self.victimFound  = self._validateVictimAction._victimFound 
+        
+        if self.victimFound:
+          self.enableVictimFoundOptions()
        
     def go_button_clicked(self):
       
@@ -117,18 +129,26 @@ class StandarWidget(QWidget):
         self.time2 = (self.timer.time())
         self.timer.setTime(self.time2)
         
-        self.enableVictimFoundOptions()
+        
+        
         
     def stop_button_clicked(self):
       
-        self.timerStarted =  False
-        self.disableVictimFoundOptions()
+      self.timerStarted =  False
+
         
     def decline_button_clicked(self):
-      pass
+      self._validateVictimAction._victimValid = False
+      self.disableVictimFoundOptions()
+      self._validateVictimAction._operatorResponded = True
+      
       
     def confirm_victim_clicked(self):
-      pass
+      asd
+      self._validateVictimAction._victimValid = True
+      self._validateVictimAction._operatorResponded = True
+      self.disableVictimFoundOptions()
+      
     
     def sonars_checked(self):
       
@@ -153,6 +173,7 @@ class StandarWidget(QWidget):
       self.victim_info.stop_monitoring()
       self.score_info.stop_monitoring()
       self._timer_refresh_widget.stop()
+      self._validateVictimAction.shutdown()
        
   
       
