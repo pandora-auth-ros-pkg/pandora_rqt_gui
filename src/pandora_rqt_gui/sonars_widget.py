@@ -43,8 +43,10 @@ class SonarsWidget(QWidget):
     @Slot()
     def refresh_topics(self):
       
-      self.lcd1.display(self.widget_info_left.last_message)
-      self.lcd2.display(self.widget_info_right.last_message)
+      if self.widget_info_left.last_message is not None:
+        self.lcd1.display(self.widget_info_left.last_message.data)
+      if self.widget_info_right.last_message is not None:
+        self.lcd2.display(self.widget_info_right.last_message.data)
        
        
     def shutdown(self):

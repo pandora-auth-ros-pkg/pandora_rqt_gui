@@ -2,24 +2,10 @@
 
 import roslib
 import rospy
-
-#~ #goal
-#~ float32 victimFoundx
-#~ float32 victimFoundy
-#~ float32 probability
-#~ string[] sensorIDsFound
-#~ ---
-#~ #result
-#~ bool victimValid 
-#~ ---
-#~ #feedback
-#~ 
-
-
 import pandora_fsm
 import actionlib
 import fsm_communications.msg 
-from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot, QTime, pyqtSignal , QObject
+from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot, QTime, QObject
 
 class ValidateVictimAction(object):
   
@@ -45,14 +31,11 @@ class ValidateVictimAction(object):
     rospy.loginfo(" Executing the VictimValidation callback " )
     rospy.loginfo(self._victimInfo)
       
-      
-      
-      
+
     if self._as.is_preempt_requested():
          rospy.loginfo('%s: Preempted' % self._action_name)
          self._as.set_preempted()
          success = False
-           
            
     if  success:
       

@@ -11,7 +11,6 @@ import rospy
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
 
-
 from .widget_info import WidgetInfo
 from .victim_found_server import ValidateVictimAction
 from .propability_info import PropabilityInfoWidget
@@ -34,11 +33,11 @@ class StandarWidget(QWidget):
        
         self._PropabilityInfoWidget = PropabilityInfoWidget(self)
         
-        #LALALLALALALALLALALALLAL
         self._validateVictimAction = ValidateVictimAction('victimValidation')
         
         self.score_info= WidgetInfo("chatter", Int16 )
-        self.victim_info= WidgetInfo("chatter", Int16 )
+        self.victim_info = WidgetInfo("chatter", Int16 )
+        self._victimInfo = [ ]
         
         self.timerStarted = False
         self.victimFound = False
@@ -84,6 +83,7 @@ class StandarWidget(QWidget):
         self.victimz.setEnabled(True)
         self.sensorID.setEnabled(True)
         self.propability.setEnabled(True)
+        self.setVictimInfo()
         self._PropabilityInfoWidget.show()
         self.internalGrid.addWidget(self._PropabilityInfoWidget,1,0)
         self._PropabilityInfoWidget.start()
@@ -103,16 +103,23 @@ class StandarWidget(QWidget):
         self._PropabilityInfoWidget.close()
         
         
-    def setVictimInfo():
-       pass
+    def setVictimInfo(self):
+        self.victimx.setText(" Victim X Position " + str(self._victimInfo[0]))
+        self.victimy.setText(" Victim Y Position " + str(self._victimInfo[1]))
+        self.victimz.setText(" Victim Z Position " + str(self._victimInfo[2]))
+        self.sensorID.setText(" Sensor ID " +  "".join(self._victimInfo[4]))
+        self.propability.setText(" Probability " + str(self._victimInfo[3]))
+       
         
       
 
     @Slot()
     def refresh_topics(self):
-      
-        self.score.display(self.score_info.last_message)
-        self.victimsFound.display(self.victim_info.last_message)
+
+        if self.score_info.last_message is not None:
+          self.score.display(self.score_info.last_message.data)
+        if self.victim_info.last_message is not None:
+          self.victimsFound.display(self.victim_info.last_message.data)
         
         if self.timerStarted:
             self.time2 = self.time2.addSecs(-1)
@@ -121,6 +128,7 @@ class StandarWidget(QWidget):
         self.victimFound  = self._validateVictimAction._victimFound 
         
         if self.victimFound:
+          self._victimInfo = self._validateVictimAction._victimInfo
           self.enableVictimFoundOptions()
        
     def go_button_clicked(self):
@@ -128,9 +136,6 @@ class StandarWidget(QWidget):
         self.timerStarted = True
         self.time2 = (self.timer.time())
         self.timer.setTime(self.time2)
-        
-        
-        
         
     def stop_button_clicked(self):
       
@@ -144,7 +149,6 @@ class StandarWidget(QWidget):
       
       
     def confirm_victim_clicked(self):
-      asd
       self._validateVictimAction._victimValid = True
       self._validateVictimAction._operatorResponded = True
       self.disableVictimFoundOptions()

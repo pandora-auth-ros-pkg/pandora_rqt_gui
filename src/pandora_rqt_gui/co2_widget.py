@@ -8,26 +8,10 @@ import roslib
 import rospkg
 import rospy
 from rospy.exceptions import ROSException
-from std_msgs.msg import Int16
+from std_msgs.msg import Int16 
 
 
-
-#~ 
-import roslib; roslib.load_manifest('pandora_fsm')
-
-#~ import rospy
-#~ import smach
-#~ import smach_ros
-
-import pandora_fsm
-#~ import pandora_gazebo
-
-#~ from smach import State, StateMachine, Concurrence
-
-#~ from pandora_data_fusion_communications import *
-
-
-from data_fusion_communications.msg import *
+#~ from data_fusion_communications.msg import *
 from .widget_info import WidgetInfo
 
 
@@ -60,7 +44,8 @@ class CO2Widget(QWidget):
     @Slot()
     def refresh_topics(self):
       
-      self.lcd.display(self.widget_info.last_message)
+      if self.widget_info.last_message is not None:
+          self.lcd.display(self.widget_info.last_message.data)
        
        
     def shutdown(self):

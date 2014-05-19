@@ -57,11 +57,12 @@ class PropabilityInfoWidget(QWidget):
     @Slot()
     def refresh_topics(self):
 
-        self.co2Bar.setValue(self.widget_info_CO2.last_message.co2 % 100 )
-        self.thermalBar.setValue(self.widget_info_Thermal.last_message.mlx % 100)
-        self.motionBar.setValue(self.widget_info_Motion.last_message.motion % 100)
-        self.soundBar.setValue(self.widget_info_Sound.last_message.sound % 100)
-        self.faceBar.setValue(self.widget_info_Face.last_message.face % 100)
+       if self.widget_info_CO2.last_message is not None:
+         self.co2Bar.setValue(self.widget_info_CO2.last_message.co2 % 100 )
+         self.thermalBar.setValue(self.widget_info_Thermal.last_message.mlx % 100)
+         self.motionBar.setValue(self.widget_info_Motion.last_message.motion % 100)
+         self.soundBar.setValue(self.widget_info_Sound.last_message.sound % 100)
+         self.faceBar.setValue(self.widget_info_Face.last_message.face % 100)
 
 
     def shutdown(self):

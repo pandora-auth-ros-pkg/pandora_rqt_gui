@@ -43,10 +43,12 @@ class BatteryWidget(QWidget):
     @Slot()
     def refresh_topics(self):
       
-      self.lcd1.display(self.widget_info_PSU.last_message)
-      self.PSUBatteryBar.setValue(self.widget_info_PSU.last_message)
-      self.lcd2.display(self.widget_info_Motor.last_message)
-      self.MotorBatteryBar.setValue(self.widget_info_Motor.last_message)
+      if self.widget_info_PSU.last_message is not None:
+        self.lcd1.display(self.widget_info_PSU.last_message.data)
+        self.PSUBatteryBar.setValue(self.widget_info_PSU.last_message.data)
+      if self.widget_info_Motor.last_message is not None:
+        self.lcd2.display(self.widget_info_Motor.last_message.data)
+        self.MotorBatteryBar.setValue(self.widget_info_Motor.last_message.data)
        
        
     def shutdown(self):
