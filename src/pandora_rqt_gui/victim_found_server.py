@@ -30,7 +30,6 @@ class ValidateVictimAction(object):
       
     rospy.loginfo(" Executing the VictimValidation callback " )
     rospy.loginfo(self._victimInfo)
-      
 
     if self._as.is_preempt_requested():
          rospy.loginfo('%s: Preempted' % self._action_name)
@@ -41,7 +40,6 @@ class ValidateVictimAction(object):
       
       self._victimFound = True
       self.wait_for_response()
-      self._victimFound = False
       self._operatorResponded = False
       self._result.victimValid = self._victimValid
       self._as.set_succeeded(self._result)
@@ -49,12 +47,13 @@ class ValidateVictimAction(object):
       
       
   def wait_for_response(self):
-    while (not self._operatorResponded):
-       i = 0
+    while (not  self._operatorResponded):
+      print "I AM WAITTING "
+      rospy.sleep(1)
         
         
   def shutdown(self):
-    pass
+   rospy.signal_shutdown("SERVER DOWN")
    #~ del(self._as)
    #~ del(self)
     

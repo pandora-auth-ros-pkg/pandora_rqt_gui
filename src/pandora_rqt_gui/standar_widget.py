@@ -4,7 +4,7 @@ import os
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot, QTime
-from python_qt_binding.QtGui import QHeaderView, QIcon, QMenu, QTreeWidgetItem, QWidget
+from python_qt_binding.QtGui import QHeaderView, QIcon, QMenu, QTreeWidgetItem, QWidget , QPixmap
 import roslib
 import rospkg
 import rospy
@@ -14,7 +14,7 @@ from std_msgs.msg import Int16
 from .widget_info import WidgetInfo
 from .victim_found_server import ValidateVictimAction
 from .propability_info import PropabilityInfoWidget
-
+from .console import Console 
 
 
 class StandarWidget(QWidget):
@@ -26,12 +26,18 @@ class StandarWidget(QWidget):
        
        
         super(StandarWidget, self).__init__()
-        rp = rospkg.RosPack()
-        ui_file = os.path.join(rp.get_path('pandora_rqt_gui'), 'resources', 'StandarWidget.ui')
+        self._rp = rospkg.RosPack()
+        ui_file = os.path.join(self._rp.get_path('pandora_rqt_gui'), 'resources', 'StandarWidget.ui')
         #~ ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'StandarWidget.ui')
         loadUi(ui_file, self)
-       
+
+        self._Console = Console()
+        self._ConsoleWidget = self._Console._widget 
         self._PropabilityInfoWidget = PropabilityInfoWidget(self)
+        self.internalGrid.addWidget(self._ConsoleWidget ,2,1)
+        #use full ABSOLUTE path to the image, not relative
+        self.image.setPixmap(QPixmap(os.path.join(self._rp.get_path('pandora_rqt_gui'), 'images', 'pandora_logo.jpeg')))
+
         
         self._validateVictimAction = ValidateVictimAction('victimValidation')
         
@@ -40,7 +46,6 @@ class StandarWidget(QWidget):
         self._victimInfo = [ ]
         
         self.timerStarted = False
-        self.victimFound = False
        
         
         
@@ -49,6 +54,8 @@ class StandarWidget(QWidget):
         self.stopButton.clicked.connect(self.stop_button_clicked)
         self.confirmButton.clicked.connect(self.confirm_victim_clicked)
         self.declineButton.clicked.connect(self.decline_button_clicked)
+        self.mysteryButton1.clicked.connect(self.mystery_button_clicked1)
+        self.mysteryButton2.clicked.connect(self.mystery_button_clicked2)
         
         #Connecting the CheckBoxes
         self.tempCheckBox.stateChanged.connect(self.temp_checked)
@@ -125,9 +132,9 @@ class StandarWidget(QWidget):
             self.time2 = self.time2.addSecs(-1)
             self.timer.setTime(self.time2)
         
-        self.victimFound  = self._validateVictimAction._victimFound 
+       
         
-        if self.victimFound:
+        if self._validateVictimAction._victimFound :
           self._victimInfo = self._validateVictimAction._victimInfo
           self.enableVictimFoundOptions()
        
@@ -146,12 +153,21 @@ class StandarWidget(QWidget):
       self._validateVictimAction._victimValid = False
       self.disableVictimFoundOptions()
       self._validateVictimAction._operatorResponded = True
+      self._validateVictimAction._victimFound = False
       
       
     def confirm_victim_clicked(self):
       self._validateVictimAction._victimValid = True
       self._validateVictimAction._operatorResponded = True
       self.disableVictimFoundOptions()
+      self._validateVictimAction._victimFound = False
+    def mystery_button_clicked1(self):
+      self.image.close()
+      self.victimInfo_2.close()
+      
+    def mystery_button_clicked2(self):
+      
+      self.label_2.setPixmap(QPixmap(os.path.join(self._rp.get_path('pandora_rqt_gui'), 'images', 'tsiri.jpg')))
       
     
     def sonars_checked(self):
