@@ -1,44 +1,34 @@
-from __future__ import division
 import os
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot
-from python_qt_binding.QtGui import QHeaderView, QIcon, QMenu, QTreeWidgetItem, QWidget
+from python_qt_binding.QtCore import Qt, QTimer, Slot
+from python_qt_binding.QtGui import QWidget
 import roslib
 import rospkg
 import rospy
 from rospy.exceptions import ROSException
-from std_msgs.msg import Int16
 
 from pandora_data_fusion_msgs.msg import GlobalProbabilitiesMsg
 
-
-
-global_propabilities_topic= "/data_fusion/victim_fusion/global_probabilities"
-
-
-
+global_propabilities_topic = "/data_fusion/victim_fusion/global_probabilities"
 from .widget_info import WidgetInfo
 
 
-class PropabilityInfoWidget(QWidget):
+class ProbabilityInfoWidget(QWidget):
     """
-   PropabilityInfoWidget.start must be called in order to update topic pane.
+   ProbabilityInfoWidget.start must be called in order to update topic pane.
     """
 
-    def __init__(self, plugin = None ):
-       
-       
-        super(PropabilityInfoWidget, self).__init__()
-        
-        self._id= "PropabilityInfo"
-        
+    def __init__(self, plugin=None):
+
+        super(ProbabilityInfoWidget, self).__init__()
+        self._id = "ProbabilityInfo"
+
         rp = rospkg.RosPack()
-        ui_file = os.path.join(rp.get_path('pandora_rqt_gui'), 'resources', 'PropabilityInfo.ui')
+        ui_file = os.path.join(rp.get_path('pandora_rqt_gui'), 'resources', 'ProbabilityInfo.ui')
         loadUi(ui_file, self)
         self.widget_probabilities_info = WidgetInfo(global_propabilities_topic, GlobalProbabilitiesMsg )
 
-        
         self._timer_refresh_widget = QTimer(self)
         self._timer_refresh_widget.timeout.connect(self.refresh_topics)
 
