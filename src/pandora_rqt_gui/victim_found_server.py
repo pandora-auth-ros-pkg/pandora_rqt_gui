@@ -4,12 +4,12 @@ import roslib
 import rospy
 import pandora_fsm
 import actionlib
-import fsm_communications.msg 
+from pandora_rqt_gui.msg import ValidateVictimGUIAction, ValidateVictimGUIResult
 from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot, QTime, QObject
 
 class ValidateVictimAction(object):
   
-  _result = fsm_communications.msg.ValidateVictimResult()
+  _result = ValidateVictimGUIResult()
   _victimFound = False
   _operatorResponded = False
   _victimValid = False
@@ -17,7 +17,7 @@ class ValidateVictimAction(object):
   
   def __init__(self,name):
     self._action_name = name
-    self._as = actionlib.SimpleActionServer(self._action_name , fsm_communications.msg.ValidateVictimAction,
+    self._as = actionlib.SimpleActionServer(self._action_name , ValidateVictimGUIAction,
      execute_cb = self.execute_cb, auto_start = False)
     self._as.start()
     

@@ -5,20 +5,20 @@ import rospy
 
 
 import actionlib
-import fsm_communications.msg
+from pandora_rqt_gui.msg import ValidateVictimGUIAction, ValidateVictimGUIGoal
 
 
 def victim_validation_client():
     # Creates the SimpleActionClient, passing the type of the action
     # (FibonacciAction) to the constructor.
-    client = actionlib.SimpleActionClient("victimValidation", fsm_communications.msg.ValidateVictimAction)
+    client = actionlib.SimpleActionClient("victimValidation", ValidateVictimGUIAction)
 
     # Waits until the action server has started up and started
     # listening for goals.
     client.wait_for_server()
 
     # Creates a goal to send to the action server.
-    goal = fsm_communications.msg.ValidateVictimGoal()
+    goal = ValidateVictimGUIGoal()
     goal.victimFoundx = 3.2
     goal.victimFoundy = 6.3
     goal.probability = 0.8
