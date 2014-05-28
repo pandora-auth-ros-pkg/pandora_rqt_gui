@@ -27,7 +27,7 @@ class ProbabilityInfoWidget(QWidget):
         rp = rospkg.RosPack()
         ui_file = os.path.join(rp.get_path('pandora_rqt_gui'), 'resources', 'ProbabilityInfo.ui')
         loadUi(ui_file, self)
-        self.widget_probabilities_info = WidgetInfo(global_propabilities_topic, GlobalProbabilitiesMsg )
+        self.widget_probabilities_info = WidgetInfo(global_propabilities_topic, GlobalProbabilitiesMsg)
 
         self._timer_refresh_widget = QTimer(self)
         self._timer_refresh_widget.timeout.connect(self.refresh_topics)
@@ -39,13 +39,12 @@ class ProbabilityInfoWidget(QWidget):
     @Slot()
     def refresh_topics(self):
 
-       if self.widget_info_CO2.last_message is not None:
-         self.co2Bar.setValue(self.widget_probabilities_info.last_message.co2 % 100 )
-         self.thermalBar.setValue(self.widget_probabilities_info.last_message.mlx % 100)
-         self.motionBar.setValue(self.widget_probabilities_info.last_message.motion % 100)
-         self.soundBar.setValue(self.widget_probabilities_info.last_message.sound % 100)
-         self.faceBar.setValue(self.widget_probabilities_info.last_message.face % 100)
-
+        if self.widget_probabilities_info.last_message is not None:
+            self.co2Bar.setValue(self.widget_probabilities_info.last_message.co2 % 100)
+            self.thermalBar.setValue(self.widget_probabilities_info.last_message.mlx % 100)
+            self.motionBar.setValue(self.widget_probabilities_info.last_message.motion % 100)
+            self.soundBar.setValue(self.widget_probabilities_info.last_message.sound % 100)
+            self.faceBar.setValue(self.widget_probabilities_info.last_message.face % 100)
 
     def shutdown(self):
         self.widget_probabilities_info.stop_monitoring()

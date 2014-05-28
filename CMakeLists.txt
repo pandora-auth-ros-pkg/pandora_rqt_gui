@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   std_msgs
   actionlib_msgs
+  roslint
 )
 
 catkin_python_setup()
@@ -30,6 +31,7 @@ catkin_package(
     std_msgs
     actionlib_msgs
     pandora_data_fusion_msgs
+    roslint
 #  DEPENDS system_lib
 )
 
