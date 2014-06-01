@@ -9,7 +9,7 @@ import rospy
 from rospy.exceptions import ROSException
 
 from pandora_data_fusion_msgs.msg import GlobalProbabilitiesMsg
-
+from std_msgs.msg import Int16
 global_propabilities_topic = "/data_fusion/victim_fusion/global_probabilities"
 from .widget_info import WidgetInfo
 
