@@ -158,7 +158,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>START</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -180,7 +180,7 @@
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="mapping_mission_button">
              <property name="text">
               <string>MappingMission</string>
              </property>
@@ -194,9 +194,9 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="teleop_state_button">
              <property name="text">
-              <string>SearchAndRescue</string>
+              <string>TeleopState</string>
              </property>
             </widget>
            </item>
@@ -208,14 +208,14 @@
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QPushButton" name="pushButton_7">
+            <widget class="QPushButton" name="search_and_rescue_button">
              <property name="text">
-              <string>TeleopState</string>
+              <string>SearchAndRescue</string>
              </property>
             </widget>
            </item>
            <item row="4" column="2">
-            <widget class="QPushButton" name="pushButton_8">
+            <widget class="QPushButton" name="semi_autonomous_state">
              <property name="text">
               <string>SemiAutonosmousState</string>
              </property>
@@ -255,9 +255,9 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QPushButton" name="mysteryButton1">
+            <widget class="QPushButton" name="left_panel_button">
              <property name="text">
-              <string>MysteryButton 1</string>
+              <string>HideLeftPanel</string>
              </property>
             </widget>
            </item>

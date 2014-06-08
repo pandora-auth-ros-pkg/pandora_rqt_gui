@@ -8,9 +8,10 @@ import rospkg
 import rospy
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
+from pandora_xmega_hardware_interface.msg import BatteryMsg
 from .widget_info import WidgetInfo
 
-
+battery_topic = "/sensors/battery"
 class BatteryWidget(QWidget):
     """
     BatteryWidget.start must be called in order to update topic pane.

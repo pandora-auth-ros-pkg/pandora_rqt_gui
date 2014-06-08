@@ -15,6 +15,9 @@ from .probability_info import ProbabilityInfoWidget
 from .console import Console
 
 
+from pandora_fsm.states.state_changer import ChangeRobotModeState ,MonitorModeState
+
+
 class StandarWidget(QWidget):
     """
     StandarWidget.start must be called in order to update topic pane.
@@ -23,6 +26,9 @@ class StandarWidget(QWidget):
     def __init__(self, plugin=None):
 
         super(StandarWidget, self).__init__()
+        
+        
+        
         #Load Ui
         self._rp = rospkg.RosPack()
         ui_file = os.path.join(self._rp.get_path('pandora_rqt_gui'), 'resources', 'StandarWidget.ui')
@@ -53,9 +59,12 @@ class StandarWidget(QWidget):
         self.stopButton.clicked.connect(self.stop_button_clicked)
         self.confirmButton.clicked.connect(self.confirm_victim_clicked)
         self.declineButton.clicked.connect(self.decline_button_clicked)
-        self.mysteryButton1.clicked.connect(self.mystery_button_clicked1)
-        self.mysteryButton2.clicked.connect(self.mystery_button_clicked2)
-
+        self.left_panel_button.clicked.connect(self.left_panel_button_clicked)
+        self.search_and_rescue_button.clicked.connect(self.search_and_rescue_button_clicked)
+        self.mapping_mission_button.clicked.connect(self.mapping_mission_button_clicked)
+        self.teleop_state_button.clicked.connect(self.teleop_state_button_clicked)
+        self.semi_autonomous_state.clicked.connect(self.semi_autonomous_state_clicked)
+        
         #Connecting the CheckBoxes
         self.tempCheckBox.stateChanged.connect(self.temp_checked)
         self.co2CheckBox.stateChanged.connect(self.co2_checked)
@@ -69,6 +78,9 @@ class StandarWidget(QWidget):
         self._sonarsChecked = False
         self._co2Checked = False
         self._showAllChecked = False
+        
+        #The left panel is visible
+        self._left_panel = True
 
         # Refresh timer
         self._timer_refresh_widget = QTimer(self)
@@ -156,14 +168,30 @@ class StandarWidget(QWidget):
         self.disableVictimFoundOptions()
         self.ValidateVictimActionServer._victimFound = False
 
-    def mystery_button_clicked1(self):
-        self.image.close()
-        self.victimInfo_2.close()
+    def left_panel_button_clicked(self):
+        if self._left_panel:
+            self.image.close()
+            self.victimInfo_2.close()
+            self._left_panel = False
+            self.left_panel_button.setText("ShowLeftPanel")
+        else :
+            self.image.show()
+            self.victimInfo_2.show()
+            self._left_panel = True
+            self.left_panel_button.setText("HideLeftPanel")
 
-    def mystery_button_clicked2(self):
-
-        self.label_2.setPixmap(QPixmap(os.path.join(self._rp.get_path('pandora_rqt_gui'), 'images', 'tsiri.jpg')))
-
+    def search_and_rescue_button_clicked(self):
+      pass
+      
+    def mapping_mission_button_clicked(self):
+      pass
+      
+    def teleop_state_button_clicked(self):
+      pass
+      
+    def semi_autonomous_state_clicked(self):
+      pass
+         
     #The checkboxes slots
     def sonars_checked(self):
 
