@@ -15,7 +15,7 @@ from .probability_info import ProbabilityInfoWidget
 from .console import Console
 
 
-from pandora_fsm.states.state_changer import ChangeRobotModeState ,MonitorModeState
+
 
 
 class StandarWidget(QWidget):
