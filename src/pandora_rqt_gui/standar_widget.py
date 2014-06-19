@@ -13,7 +13,7 @@ from .widget_info import WidgetInfo
 from .victim_found_server import ValidateVictimActionServer
 from .probability_info import ProbabilityInfoWidget
 from .console import Console
-from .state_changer import StateChanger
+from .gui_state_client import GuiStateClient
 
 
 
@@ -41,7 +41,7 @@ class StandarWidget(QWidget):
         self._Console = Console()
         self._ConsoleWidget = self._Console._widget
         self._ProbabilityInfoWidget = ProbabilityInfoWidget(self)
-        self._StateChanger =  StateChanger()
+        self._GuiStateClient =  GuiStateClient()
 
         #Add Console in the 2,1 position of InternalGrid
         self.internalGrid.addWidget(self._ConsoleWidget, 2, 1)
@@ -142,11 +142,14 @@ class StandarWidget(QWidget):
     @Slot()
     def refresh_topics(self):
 
+
+        self.state.setText(self._GuiStateClient.getState())
+        
         if self.score_info.last_message is not None:
             self.score.display(self.score_info.last_message.data)
         if self.victims_number.last_message is not None:
             self.victimsFound.display(self.victims_number.last_message.data)
-
+            
         if self.timerStarted:
             self._time = self._time.addSecs(-1)
             self.timer.setTime(self._time)
@@ -155,6 +158,7 @@ class StandarWidget(QWidget):
         if self.ValidateVictimActionServer._victimFound:
             self._victimInfo = self.ValidateVictimActionServer._victimInfo
             self.enableVictimFoundOptions()
+        
 
     #Start the timer
     def go_button_clicked(self):
@@ -163,10 +167,11 @@ class StandarWidget(QWidget):
         self._time = (self.timer.time())
         self.timer.setTime(self._time)
 
-    #Stop the timer
+    #Stop the timer and The robot
     def stop_button_clicked(self):
 
         self.timerStarted = False
+        self._GuiStateClient.transition_to_state(10)
 
     def decline_button_clicked(self):
         self.ValidateVictimActionServer._victimValid = False
@@ -208,6 +213,7 @@ class StandarWidget(QWidget):
             self.autonomous_state_button.setText("AutonomousState")
             self._autonomous = False
         else :
+            self._GuiStateClient.transition_to_state(1)
             self.teleop_state_button.setEnabled(False)
             self.semi_autonomous_state.setEnabled(False)
             self.search_and_rescue_button.setEnabled(False)
@@ -217,16 +223,16 @@ class StandarWidget(QWidget):
 
 
     def teleop_state_button_clicked(self):
-        pass
+        self._GuiStateClient.transition_to_state(7)
 
     def semi_autonomous_state_clicked(self):
-        pass
+        self._GuiStateClient.transition_to_state(6)
 
     def search_and_rescue_button_clicked(self):
-        pass
+        self._GuiStateClient.transition_to_state(1)
 
     def mapping_mission_button_clicked(self):
-        pass
+        self._GuiStateClient.transition_to_state(2)
 
     #The checkboxes slots
     def sonars_checked(self):
