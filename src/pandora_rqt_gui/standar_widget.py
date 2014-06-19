@@ -13,6 +13,10 @@ from .widget_info import WidgetInfo
 from .victim_found_server import ValidateVictimActionServer
 from .probability_info import ProbabilityInfoWidget
 from .console import Console
+from .state_changer import StateChanger
+
+
+
 
 
 
@@ -37,6 +41,7 @@ class StandarWidget(QWidget):
         self._Console = Console()
         self._ConsoleWidget = self._Console._widget
         self._ProbabilityInfoWidget = ProbabilityInfoWidget(self)
+        self._StateChanger =  StateChanger()
 
         #Add Console in the 2,1 position of InternalGrid
         self.internalGrid.addWidget(self._ConsoleWidget, 2, 1)
@@ -55,15 +60,18 @@ class StandarWidget(QWidget):
         self.timerStarted = False
 
         #Connecting the Buttons
-        self.goButton.clicked.connect(self.go_button_clicked)
-        self.stopButton.clicked.connect(self.stop_button_clicked)
-        self.confirmButton.clicked.connect(self.confirm_victim_clicked)
-        self.declineButton.clicked.connect(self.decline_button_clicked)
+        self.go_button.clicked.connect(self.go_button_clicked)
+        self.stop_button.clicked.connect(self.stop_button_clicked)
+        self.confirm_button.clicked.connect(self.confirm_victim_clicked)
+        self.decline_button.clicked.connect(self.decline_button_clicked)
         self.left_panel_button.clicked.connect(self.left_panel_button_clicked)
-        self.search_and_rescue_button.clicked.connect(self.search_and_rescue_button_clicked)
-        self.mapping_mission_button.clicked.connect(self.mapping_mission_button_clicked)
+        self.reset_timer_button.clicked.connect(self.reset_timer_button_clicked)
+        self.save_geotiff_button.clicked.connect(self.save_geotiff_button_clicked)
+        self.autonomous_state_button.clicked.connect(self.autonomous_state_button_clicked)
         self.teleop_state_button.clicked.connect(self.teleop_state_button_clicked)
         self.semi_autonomous_state.clicked.connect(self.semi_autonomous_state_clicked)
+        self.search_and_rescue_button.clicked.connect(self.search_and_rescue_button_clicked)
+        self.mapping_mission_button.clicked.connect(self.mapping_mission_button_clicked)
         
         #Connecting the CheckBoxes
         self.tempCheckBox.stateChanged.connect(self.temp_checked)
@@ -81,6 +89,9 @@ class StandarWidget(QWidget):
         
         #The left panel is visible
         self._left_panel = True
+        
+        #The state is Autonomous
+        self._autonomous = True
 
         # Refresh timer
         self._timer_refresh_widget = QTimer(self)
@@ -94,8 +105,8 @@ class StandarWidget(QWidget):
 
     def enableVictimFoundOptions(self):
 
-        self.confirmButton.setEnabled(True)
-        self.declineButton.setEnabled(True)
+        self.confirm_button.setEnabled(True)
+        self.decline_button.setEnabled(True)
         self.victimx.setEnabled(True)
         self.victimy.setEnabled(True)
         self.victimz.setEnabled(True)
@@ -108,8 +119,8 @@ class StandarWidget(QWidget):
 
     def disableVictimFoundOptions(self):
 
-        self.confirmButton.setEnabled(False)
-        self.declineButton.setEnabled(False)
+        self.confirm_button.setEnabled(False)
+        self.decline_button.setEnabled(False)
         self.victimx.setEnabled(False)
         self.victimy.setEnabled(False)
         self.victimz.setEnabled(False)
@@ -120,6 +131,7 @@ class StandarWidget(QWidget):
         self._ProbabilityInfoWidget.close()
 
     def setVictimInfo(self):
+
         self.victimx.setText(" Victim X Position " + str(self._victimInfo[0]))
         self.victimy.setText(" Victim Y Position " + str(self._victimInfo[1]))
         self.victimz.setText(" Victim Z Position " + str(self._victimInfo[2]))
@@ -172,26 +184,50 @@ class StandarWidget(QWidget):
         if self._left_panel:
             self.image.close()
             self.victimInfo_2.close()
-            self._left_panel = False
             self.left_panel_button.setText("ShowLeftPanel")
+            self._left_panel = False
         else :
             self.image.show()
             self.victimInfo_2.show()
-            self._left_panel = True
             self.left_panel_button.setText("HideLeftPanel")
+            self._left_panel = True
+
+
+    def reset_timer_button_clicked(self):
+        pass
+
+    def save_geotiff_button_clicked(self):
+        pass
+
+    def autonomous_state_button_clicked(self):
+        if self._autonomous:
+            self.teleop_state_button.setEnabled(True)
+            self.semi_autonomous_state.setEnabled(True)
+            self.search_and_rescue_button.setEnabled(True)
+            self.mapping_mission_button.setEnabled(True)
+            self.autonomous_state_button.setText("AutonomousState")
+            self._autonomous = False
+        else :
+            self.teleop_state_button.setEnabled(False)
+            self.semi_autonomous_state.setEnabled(False)
+            self.search_and_rescue_button.setEnabled(False)
+            self.mapping_mission_button.setEnabled(False)
+            self.autonomous_state_button.setText("NonAutonomousState")
+            self._autonomous = True
+
+
+    def teleop_state_button_clicked(self):
+        pass
+
+    def semi_autonomous_state_clicked(self):
+        pass
 
     def search_and_rescue_button_clicked(self):
-      pass
-      
+        pass
+
     def mapping_mission_button_clicked(self):
-      pass
-      
-    def teleop_state_button_clicked(self):
-      pass
-      
-    def semi_autonomous_state_clicked(self):
-      pass
-         
+        pass
+
     #The checkboxes slots
     def sonars_checked(self):
 

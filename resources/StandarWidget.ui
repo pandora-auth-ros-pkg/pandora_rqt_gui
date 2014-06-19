@@ -150,7 +150,7 @@
          <item>
           <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton_9">
+            <widget class="QPushButton" name="autonomous_state_button">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -158,12 +158,12 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string/>
+              <string>Non - AutonomousState</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="reset_timer_button">
              <property name="text">
               <string>ResetTimer</string>
              </property>
@@ -181,13 +181,16 @@
            </item>
            <item row="1" column="2">
             <widget class="QPushButton" name="mapping_mission_button">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>MappingMission</string>
              </property>
             </widget>
            </item>
            <item row="5" column="2">
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="save_geotiff_button">
              <property name="text">
               <string>save Geotiff</string>
              </property>
@@ -195,6 +198,9 @@
            </item>
            <item row="0" column="2">
             <widget class="QPushButton" name="teleop_state_button">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>TeleopState</string>
              </property>
@@ -209,6 +215,9 @@
            </item>
            <item row="2" column="2">
             <widget class="QPushButton" name="search_and_rescue_button">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>SearchAndRescue</string>
              </property>
@@ -216,13 +225,16 @@
            </item>
            <item row="4" column="2">
             <widget class="QPushButton" name="semi_autonomous_state">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>SemiAutonosmousState</string>
              </property>
             </widget>
            </item>
            <item row="6" column="2">
-            <widget class="QPushButton" name="stopButton">
+            <widget class="QPushButton" name="stop_button">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
                <horstretch>0</horstretch>
@@ -262,7 +274,7 @@
             </widget>
            </item>
            <item row="6" column="0">
-            <widget class="QPushButton" name="goButton">
+            <widget class="QPushButton" name="go_button">
              <property name="font">
               <font>
                <pointsize>24</pointsize>
@@ -357,7 +369,7 @@
           <item row="0" column="1">
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
-             <widget class="QPushButton" name="declineButton">
+             <widget class="QPushButton" name="decline_button">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -370,7 +382,7 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QPushButton" name="confirmButton">
+             <widget class="QPushButton" name="confirm_button">
               <property name="enabled">
                <bool>false</bool>
               </property>
