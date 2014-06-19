@@ -134,9 +134,8 @@ class StandarWidget(QWidget):
         self.victimz.setText(" Victim Z Position " + str(self._victimInfo[2]))
         sensors = "";
         for sensor in self._victimInfo[4]:
-          rospy.loginfo(sensors)
           sensors = sensors+(sensor)+" " 
-        rospy.loginfo(sensors)
+
         self.sensorID.setText(" Sensor IDs " + "".join(sensors))
         self.probability.setText(" Probability " + str(self._victimInfo[3]))
 
