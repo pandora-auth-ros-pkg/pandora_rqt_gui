@@ -1,11 +1,14 @@
 import os
 
-from python_qt_binding import loadUi
-from python_qt_binding.QtCore import Qt, QTimer, Slot, QTime
-from python_qt_binding.QtGui import QWidget, QPixmap
+
 import roslib
 import rospkg
 import rospy
+
+from python_qt_binding import loadUi
+from python_qt_binding.QtCore import Qt, QTimer, Slot, QTime
+from python_qt_binding.QtGui import QWidget, QPixmap
+
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16
 
@@ -18,10 +21,6 @@ from .gui_state_client import GuiStateClient
 
 
 
-
-
-
-
 class StandarWidget(QWidget):
     """
     StandarWidget.start must be called in order to update topic pane.
@@ -30,9 +29,7 @@ class StandarWidget(QWidget):
     def __init__(self, plugin=None):
 
         super(StandarWidget, self).__init__()
-        
-        
-        
+
         #Load Ui
         self._rp = rospkg.RosPack()
         ui_file = os.path.join(self._rp.get_path('pandora_rqt_gui'), 'resources', 'StandarWidget.ui')
@@ -135,7 +132,12 @@ class StandarWidget(QWidget):
         self.victimx.setText(" Victim X Position " + str(self._victimInfo[0]))
         self.victimy.setText(" Victim Y Position " + str(self._victimInfo[1]))
         self.victimz.setText(" Victim Z Position " + str(self._victimInfo[2]))
-        self.sensorID.setText(" Sensor ID " + "".join(self._victimInfo[4]))
+        sensors = "";
+        for sensor in self._victimInfo[4]:
+          rospy.loginfo(sensors)
+          sensors = sensors+(sensor)+" " 
+        rospy.loginfo(sensors)
+        self.sensorID.setText(" Sensor IDs " + "".join(sensors))
         self.probability.setText(" Probability " + str(self._victimInfo[3]))
 
     # Refreshing the topics
@@ -260,3 +262,4 @@ class StandarWidget(QWidget):
         self.score_info.stop_monitoring()
         self._timer_refresh_widget.stop()
         self.ValidateVictimActionServer.shutdown()
+        self._GuiStateClient.shutdown()
