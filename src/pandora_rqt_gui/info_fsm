@@ -1,8 +1,0 @@
-from state_manager_communications.msg import RobotModeAction, RobotModeGoal, \
-                                              robotModeMsg
-                                              
-                                              
-
-import pandora_fsm
-
-/home/konstantinos/pandora_ws/src/pandora_common/state_manager_communications/msg

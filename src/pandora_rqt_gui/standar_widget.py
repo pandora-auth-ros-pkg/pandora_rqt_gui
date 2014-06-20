@@ -10,7 +10,9 @@ from python_qt_binding.QtCore import Qt, QTimer, Slot, QTime
 from python_qt_binding.QtGui import QWidget, QPixmap
 
 from rospy.exceptions import ROSException
-from std_msgs.msg import Int16
+
+from std_msgs.msg import Int32
+from pandora_data_fusion_msgs.msg import WorldModelMsg
 
 from .widget_info import WidgetInfo
 from .victim_found_server import ValidateVictimActionServer
@@ -18,8 +20,8 @@ from .probability_info import ProbabilityInfoWidget
 from .console import Console
 from .gui_state_client import GuiStateClient
 
-
-
+world_model_info_topic = '/data_fusion/world_model_info'
+robocup_score_topic = 'data_fusion/robocup_score'
 
 class StandarWidget(QWidget):
     """
@@ -49,9 +51,9 @@ class StandarWidget(QWidget):
         # the ValidateVictimActionServer is used called when a victim is found
         self.ValidateVictimActionServer = ValidateVictimActionServer('victimValidation')
 
-        #Subscribe the score the victims_number and Info
-        self.score_info = WidgetInfo("chatter", Int16)
-        self.victims_number = WidgetInfo("chatter", Int16)
+        #Subscribe the score the world_model_info and Info
+        self.score_info = WidgetInfo(robocup_score_topic, Int32)
+        self.world_model_info = WidgetInfo(world_model_info_topic, WorldModelMsg)
         self._victimInfo = []
 
         self.timerStarted = False
@@ -97,7 +99,7 @@ class StandarWidget(QWidget):
     def start(self):
 
         self.score_info.start_monitoring()
-        self.victims_number.start_monitoring()
+        self.world_model_info.start_monitoring()
         self._timer_refresh_widget.start(1000)
 
     def enableVictimFoundOptions(self):
@@ -143,14 +145,18 @@ class StandarWidget(QWidget):
     @Slot()
     def refresh_topics(self):
 
-
         self.state.setText(self._GuiStateClient.getState())
         
         if self.score_info.last_message is not None:
             self.score.display(self.score_info.last_message.data)
-        if self.victims_number.last_message is not None:
-            self.victimsFound.display(self.victims_number.last_message.data)
             
+        if self.world_model_info.last_message is not None:
+            victims_number = 0
+            for victim in self.world_model_info.last_message.visitedVictims:
+                if victim.valid:
+                    victims_number = victims_number + 1
+            self.victimsFound.display(victims_number)
+
         if self.timerStarted:
             self._time = self._time.addSecs(-1)
             self.timer.setTime(self._time)
@@ -257,7 +263,7 @@ class StandarWidget(QWidget):
 
     #Method called when the Widget is terminated
     def shutdown(self):
-        self.victims_number.stop_monitoring()
+        self.world_model_info.stop_monitoring()
         self.score_info.stop_monitoring()
         self._timer_refresh_widget.stop()
         self.ValidateVictimActionServer.shutdown()
