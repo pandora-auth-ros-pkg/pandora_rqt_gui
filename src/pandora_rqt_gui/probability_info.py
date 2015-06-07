@@ -86,7 +86,7 @@ class ProbabilityInfoWidget(QWidget):
             self.thermalBar.setValue(self.widget_probabilities_info.last_message.thermal % 100)
             self.motionBar.setValue(self.widget_probabilities_info.last_message.motion % 100)
             self.soundBar.setValue(self.widget_probabilities_info.last_message.sound % 100)
-            self.faceBar.setValue(self.widget_probabilities_info.last_message.victim % 100)
+            self.victimBar.setValue(self.widget_probabilities_info.last_message.victim % 100)
 
     def shutdown(self):
         self.widget_probabilities_info.stop_monitoring()
