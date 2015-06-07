@@ -86,8 +86,8 @@ class ValidateVictimActionServer(object):
             self.as_.set_succeeded(self.result)
 
     def wait_for_response(self):
-        while (not self.operator_responded):
-            print "I AM WAITTING "
+        while not self.operator_responded:
+            print('Victim validation => waiting for the operator.')
             rospy.sleep(1)
 
     def shutdown(self):

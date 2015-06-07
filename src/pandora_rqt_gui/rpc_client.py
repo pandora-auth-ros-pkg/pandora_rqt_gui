@@ -1,10 +1,4 @@
-#!/usr/bin/env python
 # Software License Agreement
-__version__ = "0.0.1"
-__status__ = "Production"
-__license__ = "BSD"
-__copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
-#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -32,44 +26,38 @@ __copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-__author__ = "Chamzas Konstantinos"
-__maintainer__ = "Chamzas Konstantinos"
-__email__ = "chamzask@gmail.com"
 
-import rospy
+from __future__ import print_function
+
+__author__ = "Sideris Konstantinos"
+__maintainer__ = "Sideris Konstantinos"
+__email__ = "siderisk@auth.gr"
+
+import os
+import zmq
 
 
-class WidgetInfo():
+RPC_SERVER_PORT = '5555'
 
-    def __init__(self, topic_name, topic_type):
 
-        self.topic_name_ = topic_name
-        self.error = None
-        self.subscriber = None
-        self.monitoring = False
-        self.topic_type_ = topic_type
-        self.last_message = None
+class Client(object):
 
-    def toggle_monitoring(self):
+    def __init__(self):
+        master_uri = os.environ['ROS_MASTER_URI']
+        self.rpc_ip = master_uri.split('//')[1].split(':')[0]
+        self.context = zmq.Context()
+        print('Connecting to the 0MQ Server...')
+        self.socket = self.context.socket(zmq.REQ)
+        self.socket.connect('tcp://' + self.rpc_ip + ':' + RPC_SERVER_PORT)
 
-        if self.monitoring:
-            self.stop_monitoring()
-        else:
-            self.start_monitoring()
+    def start_agent(self):
+        print('Sending start command to the agent...')
+        self.socket.send('agent:start')
+        pid = self.socket.recv()
+        print('Process started with pid: %s.' % pid)
 
-    def start_monitoring(self):
-
-        if self.topic_type_ is not None:
-            self.monitoring = True
-            self.subscriber = rospy.Subscriber(self.topic_name_,
-                                               self.topic_type_,
-                                               self.message_callback)
-
-    def stop_monitoring(self):
-        self.monitoring = False
-
-        if self.subscriber is not None:
-            self.subscriber.unregister()
-
-    def message_callback(self, message):
-        self.last_message = message
+    def stop_agent(self):
+        print('Sending stop command to the agent...')
+        self.socket.send('agent:stop')
+        response = self.socket.recv()
+        print('Received %s.' % response)
