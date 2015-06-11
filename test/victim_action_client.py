@@ -5,7 +5,7 @@ import rospy
 import random
 
 import actionlib
-from pandora_rqt_gui.msg import ValidateVictimGUIAction, ValidateVictimGUIGoal
+from pandora_gui_msgs.msg import ValidateVictimGUIAction, ValidateVictimGUIGoal
 
 validate_victim_service_name = '/gui/validate_victim'
 

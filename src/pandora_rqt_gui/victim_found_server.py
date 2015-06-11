@@ -34,8 +34,8 @@ __email__ = "chamzask@gmail.com"
 import rospy
 import actionlib
 
-from pandora_rqt_gui.msg import ValidateVictimGUIAction
-from pandora_rqt_gui.msg import ValidateVictimGUIResult
+from pandora_gui_msgs.msg import ValidateVictimGUIAction
+from pandora_gui_msgs.msg import ValidateVictimGUIResult
 
 
 class ValidateVictimActionServer(object):

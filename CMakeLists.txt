@@ -10,13 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_python_setup()
 
-add_action_files(
-  FILES
-  ValidateVictimGUI.action
-)
-
 generate_messages(
-  DEPENDENCIES std_msgs actionlib_msgs
+  DEPENDENCIES std_msgs
 )
 
 catkin_package(
@@ -36,7 +31,7 @@ catkin_package(
 FILE(GLOB_RECURSE ${PROJECT_NAME}_LINT_PYTHON
             ${PROJECT_SOURCE_DIR}
             src/**/*.py
-            test/**/*.py
+            test/*.py
             )
 
 roslint_python(${${PROJECT_NAME}_LINT_PYTHON})
