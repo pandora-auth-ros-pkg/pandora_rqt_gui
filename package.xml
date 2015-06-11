@@ -24,6 +24,7 @@
 
   <depend>actionlib_msgs</depend>
   <depend>pandora_data_fusion_msgs</depend>
+  <depend>pandora_geotiff</depend>
   <depend>pandora_sensor_msgs</depend>
   <depend>state_manager</depend>
   <depend>state_manager_msgs</depend>
