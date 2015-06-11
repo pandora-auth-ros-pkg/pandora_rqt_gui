@@ -1,9 +1,4 @@
 # Software License Agreement
-__version__ = "0.0.1"
-__status__ = "Production"
-__license__ = "BSD"
-__copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
-#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -31,14 +26,18 @@ __copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
+
+from __future__ import print_function
+
 __author__ = "Chamzas Konstantinos"
 __maintainer__ = "Chamzas Konstantinos"
 __email__ = "chamzask@gmail.com"
 
-import sys
-import rospy
+from rospy import ServiceProxy, wait_for_service, ServiceException
 from pandora_geotiff.srv import *
 from std_msgs.msg import String
+
+save_geotiff_service = 'pandora_geotiff_node/saveMission'
 
 
 class SaveMissionClient():
@@ -47,20 +46,20 @@ class SaveMissionClient():
         pass
 
     def save_mission_client(self, mission_name):
-        print "WAITING FOR SEVICE"
-        rospy.wait_for_service('pandora_geotiff_node/saveMission')
+        print("WAITING FOR SEVICE")
+        wait_for_service(save_geotiff_service)
         msg = String(mission_name)
         try:
-            save_mission = rospy.ServiceProxy('pandora_geotiff_node/saveMission', SaveMission)
+            save_mission = ServiceProxy(save_geotiff_service, SaveMission)
             resp = save_mission(msg)
-        except rospy.ServiceException, e:
-            print "Service call failed :%s" % e
+        except ServiceException as e:
+            print("Service call failed :%s" % e)
 
-        print "Service call succeded"
+        print("Service call succeded")
         return True
 
 if __name__ == "__main__":
 
-    print "Requesting save Mission Named Eleana"
+    print("Requesting save Mission Named Eleana")
     SMC = SaveMissionClient()
     SMC.save_mission_client("Testing")

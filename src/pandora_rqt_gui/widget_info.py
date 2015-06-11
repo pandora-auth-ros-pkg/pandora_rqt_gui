@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # Software License Agreement
-__version__ = "0.0.1"
-__status__ = "Production"
-__license__ = "BSD"
-__copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
-#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:

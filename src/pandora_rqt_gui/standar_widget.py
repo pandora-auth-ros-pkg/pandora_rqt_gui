@@ -1,9 +1,4 @@
 # Software License Agreement
-__version__ = "0.0.1"
-__status__ = "Production"
-__license__ = "BSD"
-__copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
-#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -35,6 +30,7 @@ __copyright__ = "Copyright (c) 2015, P.A.N.D.O.R.A. Team. All rights reserved."
 __author__ = "Chamzas Konstantinos"
 __maintainer__ = "Chamzas Konstantinos"
 __email__ = "chamzask@gmail.com"
+
 import os
 import roslib
 import rospkg
@@ -94,8 +90,10 @@ class StandarWidget(QWidget):
         # ValidateVictimActionServer is used called when a victim is found
         self.ValidateVictimActionServer_ = ValidateVictimActionServer(
             validate_victim_service_name)
+
         # Dynamic_reconfigure client is used to change the parameters
-        # self.dynamic_reconfigure_client = dynamic_reconfigure.client.Client("agent")
+        # self.dynamic_reconfigure_client =
+        # dynamic_reconfigure.client.Client("agent")
 
         self.dynamic_reconfigure_client = None
 
@@ -107,7 +105,8 @@ class StandarWidget(QWidget):
 
         # Subscribe the score the world_model_info and Info
         self.score_info = WidgetInfo(robocup_score_topic, Int32)
-        self.world_model_info = WidgetInfo(world_model_info_topic, WorldModelMsg)
+        self.world_model_info = WidgetInfo(world_model_info_topic,
+                                           WorldModelMsg)
         self.victim_info = []
 
         self.timer_started = False
