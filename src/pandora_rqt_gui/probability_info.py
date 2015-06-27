@@ -37,7 +37,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtCore import QTimer, Slot
 from python_qt_binding.QtGui import QWidget
 
-from pandora_data_fusion_msgs.msg import GlobalProbabilitiesMsg
+from pandora_data_fusion_msgs.msg import VictimProbabilitiesMsg
 from .widget_info import WidgetInfo
 
 global_propabilities_topic = "/data_fusion/signs_of_life"
@@ -59,7 +59,7 @@ class ProbabilityInfoWidget(QWidget):
 
         # Create the subcribers.
         self.widget_probabilities_info = WidgetInfo(global_propabilities_topic,
-                                                    GlobalProbabilitiesMsg)
+                                                    VictimProbabilitiesMsg)
 
         # Create and connect the timer.
         self.timer_refresh_widget = QTimer(self)
@@ -79,7 +79,8 @@ class ProbabilityInfoWidget(QWidget):
             self.thermalBar.setValue(message.thermal % 100)
             self.motionBar.setValue(message.motion % 100)
             self.soundBar.setValue(message.sound % 100)
-            self.victimBar.setValue(message.victim % 100)
+            self.victimBar.setValue(message.visualVictim % 100)
+            self.hazmatBar.setValue(message.hazmat % 100)
 
     def shutdown(self):
         self.widget_probabilities_info.stop_monitoring()

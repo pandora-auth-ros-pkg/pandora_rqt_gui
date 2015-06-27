@@ -4,14 +4,14 @@ from __future__ import print_function
 
 import random
 import rospy
-from pandora_data_fusion_msgs.msg import GlobalProbabilitiesMsg
+from pandora_data_fusion_msgs.msg import VictimProbabilitiesMsg
 
 global_propabilities_topic = "/data_fusion/signs_of_life"
 
 
 def talker():
-    msg = GlobalProbabilitiesMsg()
-    pub = rospy.Publisher(global_propabilities_topic, GlobalProbabilitiesMsg,
+    msg = VictimProbabilitiesMsg()
+    pub = rospy.Publisher(global_propabilities_topic, VictimProbabilitiesMsg,
                           queue_size=10)
     rospy.init_node('talker', anonymous=True)
     rospy.loginfo(" Publisher for Victim Propabilities initialized")
@@ -20,7 +20,7 @@ def talker():
         msg.co2 = random.randint(0, 5)
         msg.sound = random.randint(0, 5)
         msg.motion = random.randint(0, 5)
-        msg.victim = random.randint(0, 5)
+        msg.visualVictim = random.randint(0, 5)
         print(msg)
         pub.publish(msg)
         rospy.sleep(1)
